@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="edu.neu.generator.repository.CountryMapper" >
+  <resultMap id="BaseResultMap" type="edu.neu.generator.bean.Country" >
+    <constructor >
+      <idArg column="Code" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="Name" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="Continent" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="Region" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="SurfaceArea" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="IndepYear" jdbcType="SMALLINT" javaType="java.lang.Short" />
+      <arg column="Population" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="LifeExpectancy" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="GNP" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="GNPOld" jdbcType="REAL" javaType="java.lang.Float" />
+      <arg column="LocalName" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="GovernmentForm" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="HeadOfState" jdbcType="CHAR" javaType="java.lang.String" />
+      <arg column="Capital" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="Code2" jdbcType="CHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Code, Name, Continent, Region, SurfaceArea, IndepYear, Population, LifeExpectancy, 
+    GNP, GNPOld, LocalName, GovernmentForm, HeadOfState, Capital, Code2
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="edu.neu.generator.bean.CountryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="edu.neu.generator.bean.CountryExample" >
+    delete from country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="edu.neu.generator.bean.Country" >
+    <selectKey resultType="java.lang.String" keyProperty="code" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into country
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      Code,
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="continent != null" >
+        Continent,
+      </if>
+      <if test="region != null" >
+        Region,
+      </if>
+      <if test="surfacearea != null" >
+        SurfaceArea,
+      </if>
+      <if test="indepyear != null" >
+        IndepYear,
+      </if>
+      <if test="population != null" >
+        Population,
+      </if>
+      <if test="lifeexpectancy != null" >
+        LifeExpectancy,
+      </if>
+      <if test="gnp != null" >
+        GNP,
+      </if>
+      <if test="gnpold != null" >
+        GNPOld,
+      </if>
+      <if test="localname != null" >
+        LocalName,
+      </if>
+      <if test="governmentform != null" >
+        GovernmentForm,
+      </if>
+      <if test="headofstate != null" >
+        HeadOfState,
+      </if>
+      <if test="capital != null" >
+        Capital,
+      </if>
+      <if test="code2 != null" >
+        Code2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{code,jdbcType=CHAR},
+      <if test="name != null" >
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="continent != null" >
+        #{continent,jdbcType=CHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=CHAR},
+      </if>
+      <if test="surfacearea != null" >
+        #{surfacearea,jdbcType=REAL},
+      </if>
+      <if test="indepyear != null" >
+        #{indepyear,jdbcType=SMALLINT},
+      </if>
+      <if test="population != null" >
+        #{population,jdbcType=INTEGER},
+      </if>
+      <if test="lifeexpectancy != null" >
+        #{lifeexpectancy,jdbcType=REAL},
+      </if>
+      <if test="gnp != null" >
+        #{gnp,jdbcType=REAL},
+      </if>
+      <if test="gnpold != null" >
+        #{gnpold,jdbcType=REAL},
+      </if>
+      <if test="localname != null" >
+        #{localname,jdbcType=CHAR},
+      </if>
+      <if test="governmentform != null" >
+        #{governmentform,jdbcType=CHAR},
+      </if>
+      <if test="headofstate != null" >
+        #{headofstate,jdbcType=CHAR},
+      </if>
+      <if test="capital != null" >
+        #{capital,jdbcType=INTEGER},
+      </if>
+      <if test="code2 != null" >
+        #{code2,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.neu.generator.bean.CountryExample" resultType="java.lang.Integer" >
+    select count(*) from country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update country
+    <set >
+      <if test="record.code != null" >
+        Code = #{record.code,jdbcType=CHAR},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=CHAR},
+      </if>
+      <if test="record.continent != null" >
+        Continent = #{record.continent,jdbcType=CHAR},
+      </if>
+      <if test="record.region != null" >
+        Region = #{record.region,jdbcType=CHAR},
+      </if>
+      <if test="record.surfacearea != null" >
+        SurfaceArea = #{record.surfacearea,jdbcType=REAL},
+      </if>
+      <if test="record.indepyear != null" >
+        IndepYear = #{record.indepyear,jdbcType=SMALLINT},
+      </if>
+      <if test="record.population != null" >
+        Population = #{record.population,jdbcType=INTEGER},
+      </if>
+      <if test="record.lifeexpectancy != null" >
+        LifeExpectancy = #{record.lifeexpectancy,jdbcType=REAL},
+      </if>
+      <if test="record.gnp != null" >
+        GNP = #{record.gnp,jdbcType=REAL},
+      </if>
+      <if test="record.gnpold != null" >
+        GNPOld = #{record.gnpold,jdbcType=REAL},
+      </if>
+      <if test="record.localname != null" >
+        LocalName = #{record.localname,jdbcType=CHAR},
+      </if>
+      <if test="record.governmentform != null" >
+        GovernmentForm = #{record.governmentform,jdbcType=CHAR},
+      </if>
+      <if test="record.headofstate != null" >
+        HeadOfState = #{record.headofstate,jdbcType=CHAR},
+      </if>
+      <if test="record.capital != null" >
+        Capital = #{record.capital,jdbcType=INTEGER},
+      </if>
+      <if test="record.code2 != null" >
+        Code2 = #{record.code2,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update country
+    set Code = #{record.code,jdbcType=CHAR},
+      Name = #{record.name,jdbcType=CHAR},
+      Continent = #{record.continent,jdbcType=CHAR},
+      Region = #{record.region,jdbcType=CHAR},
+      SurfaceArea = #{record.surfacearea,jdbcType=REAL},
+      IndepYear = #{record.indepyear,jdbcType=SMALLINT},
+      Population = #{record.population,jdbcType=INTEGER},
+      LifeExpectancy = #{record.lifeexpectancy,jdbcType=REAL},
+      GNP = #{record.gnp,jdbcType=REAL},
+      GNPOld = #{record.gnpold,jdbcType=REAL},
+      LocalName = #{record.localname,jdbcType=CHAR},
+      GovernmentForm = #{record.governmentform,jdbcType=CHAR},
+      HeadOfState = #{record.headofstate,jdbcType=CHAR},
+      Capital = #{record.capital,jdbcType=INTEGER},
+      Code2 = #{record.code2,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.neu.generator.bean.Country" >
+    update country
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="continent != null" >
+        Continent = #{continent,jdbcType=CHAR},
+      </if>
+      <if test="region != null" >
+        Region = #{region,jdbcType=CHAR},
+      </if>
+      <if test="surfacearea != null" >
+        SurfaceArea = #{surfacearea,jdbcType=REAL},
+      </if>
+      <if test="indepyear != null" >
+        IndepYear = #{indepyear,jdbcType=SMALLINT},
+      </if>
+      <if test="population != null" >
+        Population = #{population,jdbcType=INTEGER},
+      </if>
+      <if test="lifeexpectancy != null" >
+        LifeExpectancy = #{lifeexpectancy,jdbcType=REAL},
+      </if>
+      <if test="gnp != null" >
+        GNP = #{gnp,jdbcType=REAL},
+      </if>
+      <if test="gnpold != null" >
+        GNPOld = #{gnpold,jdbcType=REAL},
+      </if>
+      <if test="localname != null" >
+        LocalName = #{localname,jdbcType=CHAR},
+      </if>
+      <if test="governmentform != null" >
+        GovernmentForm = #{governmentform,jdbcType=CHAR},
+      </if>
+      <if test="headofstate != null" >
+        HeadOfState = #{headofstate,jdbcType=CHAR},
+      </if>
+      <if test="capital != null" >
+        Capital = #{capital,jdbcType=INTEGER},
+      </if>
+      <if test="code2 != null" >
+        Code2 = #{code2,jdbcType=CHAR},
+      </if>
+    </set>
+    where Code = #{code,jdbcType=CHAR}
+  </update>
+</mapper>
